@@ -1,0 +1,6 @@
+#useless folders
+.vscode
+.DS_Store
+
+#files for debugging
+*.tmp
