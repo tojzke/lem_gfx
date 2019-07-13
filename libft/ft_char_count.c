@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*   ft_char_count.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 22:49:20 by bkiehn            #+#    #+#             */
-/*   Updated: 2019/07/13 17:09:40 by dzboncak         ###   ########.fr       */
+/*   Created: 2019/07/11 17:06:45 by dzboncak          #+#    #+#             */
+/*   Updated: 2019/07/11 17:06:59 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-void	ft_memdel(void **ap)
+int		ft_char_count(char c, char *line)
 {
-	if (ap != NULL)
+	int i;
+	int res;
+
+	res = 0;
+	i = -1;
+	while (line[++i])
 	{
-		free(*ap);
-		*ap = NULL;
+		if (line[i] == c)
+			res++;
 	}
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 17:07:39 by bkiehn            #+#    #+#             */
-/*   Updated: 2019/07/13 17:07:42 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/13 17:27:20 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-void				ft_putstr(const char *str);
 void				ft_arrclr(char **arr);
 int					ft_arrlen(char **arr);
 int					ft_char_count(char c, char *line);
+int					ft_printf(const char *s, ...);
+void				ft_putstr(const char *str);
 size_t				ft_strlen(const char *str);
 void				*ft_memset(void *b, int val, size_t num);
 int					ft_atoi(const char *str);

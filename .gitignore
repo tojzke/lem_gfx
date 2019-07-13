@@ -4,3 +4,12 @@
 
 #files for debugging
 *.tmp
+*test*
+
+#Different kind of maps
+*.map
+maps/
+
+#Executables
+lem-in
+a.out

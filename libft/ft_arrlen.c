@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*   ft_arrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 22:49:20 by bkiehn            #+#    #+#             */
-/*   Updated: 2019/07/13 17:09:40 by dzboncak         ###   ########.fr       */
+/*   Created: 2019/07/11 16:57:51 by dzboncak          #+#    #+#             */
+/*   Updated: 2019/07/11 17:04:59 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-void	ft_memdel(void **ap)
+int		ft_arrlen(char **arr)
 {
-	if (ap != NULL)
-	{
-		free(*ap);
-		*ap = NULL;
-	}
+	int i;
+
+	i = 0;
+	if (arr == NULL)
+		return (0);
+	while (arr[i])
+		i++;
+	return (i);
 }

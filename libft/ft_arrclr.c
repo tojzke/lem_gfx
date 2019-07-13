@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*   ft_arrclr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 22:49:20 by bkiehn            #+#    #+#             */
-/*   Updated: 2019/07/13 17:09:40 by dzboncak         ###   ########.fr       */
+/*   Created: 2019/07/11 16:57:02 by dzboncak          #+#    #+#             */
+/*   Updated: 2019/07/11 18:12:02 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-void	ft_memdel(void **ap)
+void	ft_arrclr(char **arr)
 {
-	if (ap != NULL)
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (arr[i])
 	{
-		free(*ap);
-		*ap = NULL;
+		ft_strdel(&arr[i]);
+		i++;
 	}
+	free(arr);
+	arr = NULL;
 }
