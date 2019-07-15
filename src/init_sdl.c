@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:36:09 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/13 17:01:35 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/15 19:38:37 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int		init_sdl(t_visual *vis)
 	Uint32 render_flags;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
-	vis->win = SDL_CreateWindow("Hello world!", SDL_WINDOWPOS_CENTERED,
+	vis->win = SDL_CreateWindow("lem-gfx", SDL_WINDOWPOS_CENTERED,
 	SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
 	if (vis->win == NULL)
 	{
-		printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
+		ft_printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
 		SDL_DestroyWindow(vis->win);
 		return (-1);
 	}
@@ -29,7 +29,7 @@ int		init_sdl(t_visual *vis)
 	vis->rend = SDL_CreateRenderer(vis->win, -1, render_flags);
 	if (vis->rend == NULL)
 	{
-		printf("SDL_CreateRenderer Error: %s\n", SDL_GetError());
+		ft_printf("SDL_CreateRenderer Error: %s\n", SDL_GetError());
 		SDL_DestroyWindow(vis->win);
 		SDL_DestroyRenderer(vis->rend);
 		return (-1);
@@ -42,6 +42,7 @@ int		init_sdl(t_visual *vis)
 		SDL_DestroyRenderer(vis->rend);
 		SDL_DestroyWindow(vis->win);
 		SDL_Quit();
-		return (1);
+		return (-1);
 	}
+	return (0);
 }

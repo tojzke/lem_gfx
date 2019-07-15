@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 17:08:08 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/13 17:08:13 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/15 16:38:19 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			create_link(char *line, t_lem *lem)
 	n2 = find_node(params[1], lem->nodes);
 	ft_arrclr(params);
 	if (n1 == NULL || n2 == NULL)
-		error("Link contains an unknown room", lem);
+		error("No such room to link", lem);
 	if (n1 == n2)
 		error("Self-loops are forbidden", lem);
 	if (!node_in_path(n1->links, n2) && !node_in_path(n2->links, n1))

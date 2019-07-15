@@ -1,6 +1,7 @@
 #useless folders
 .vscode
 .DS_Store
+obj/
 
 #files for debugging
 *.tmp
@@ -13,3 +14,4 @@ maps/
 #Executables
 lem-in
 a.out
+lem-gfx

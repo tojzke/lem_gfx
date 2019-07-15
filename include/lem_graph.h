@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:38:50 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/13 19:03:22 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/15 20:43:48 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@
 # include "SDL2/SDL_timer.h"
 # include "ft_printf.h"
 # include "libft.h"
+# include <math.h>
 # define WIN_WIDTH 1024
 # define WIN_HEIGHT 768
+# define FT_INT_MIN -2147483648
+# define FT_INT_MAX 2147483647
+# define ROOM_H 30
+# define ROOM_W 30
+# define INIT_SCALE 30
 # define SCROLL_SPEED 100
 # define SPEED 100
 # define MAP_ROOMS_MODE			0
@@ -39,18 +45,22 @@
 # define BG_RED					"\033[41m"
 # define BG_DEFAULT				"\033[40m"
 
-
 typedef struct	s_node
 {
 	char					*name;
 	struct s_list_of_nodes	*links;
 	int						x;
 	int						y;
+	int						draw_x;
+	int						draw_y;
 	struct s_node			*bfs_prev;
 	int						bfs_used;
 	int						bfs_in_queue;
 	int						marked;
 }				t_node;
+/*
+** Struct for representing a room
+*/
 
 typedef struct	s_list_of_nodes
 {
@@ -58,17 +68,22 @@ typedef struct	s_list_of_nodes
 	struct s_list_of_nodes	*next;
 }				t_list_of_nodes;
 /*
+** List of rooms
+*/
+
+typedef	struct				s_list_of_steps
+{
+	char					**step;
+	struct s_list_of_steps	*next;
+}							t_list_of_steps;
+
+/*
 ** step - 2d array of positions of lem on current step
 **	(e.g. step[0] == "L1-s2", step[1] == "L2-s1")
 ** next - link to next step
 */
-typedef	struct	s_list_of_steps
-{
-	char					**step;
-	struct s_list_of_steps	*next;
-}				t_list_of_steps;
 
-typedef struct	s_lem
+typedef struct				s_lem
 {
 	int						ants;
 	t_list_of_nodes			*nodes;
@@ -78,31 +93,48 @@ typedef struct	s_lem
 	int						flag_steps;
 	int						flag_color;
 	int						flag_paths;
-}				t_lem;
+}							t_lem;
 
-typedef struct	s_visual
-{
-	SDL_Window		*win;
-	SDL_Renderer	*rend;
-	SDL_Texture		*lem;
-	SDL_Texture		*background;
-	SDL_Texture		*room;
-	t_lem			*lem_data;
-}				t_visual;
-
-
-int			init_sdl(t_visual *vis);
-SDL_Texture	*load_tex(const char *file_name, t_visual *vis);
-void		apply_surface(int x, int y, SDL_Texture *tex, SDL_Renderer *rend);
 /*
-**Reading stuff
+** Struct for lem-in solution
 */
-void			read_map(t_lem *lem);
-void			links_mode(char *line, t_lem *lem);
-int				get_next_line_counter(int mode, int fd, char **line,
-				t_lem *lem);
-void			error(char *message, t_lem *lem);
-t_node			*create_node(char *line, t_lem *lem);
+
+typedef struct				s_visual
+{
+	SDL_Window				*win;
+	SDL_Renderer			*rend;
+	SDL_Texture				*lem;
+	SDL_Texture				*background;
+	SDL_Texture				*room;
+	t_lem					*lem_data;
+	int						x_off;
+	int						y_off;
+	int						scale;
+}							t_visual;
+/*
+** Main struct for visualizing lem-in
+** (win, rend) - members of window an renderer
+** (lem, background, room) - textures for drawing
+**	lem_data - actual lem-in data (rooms, links, ants)
+*/
+
+/*
+** SDL dependent funcs
+*/
+int							init_sdl(t_visual *vis);
+SDL_Texture					*load_tex(const char *file_name, t_visual *vis);
+void						apply_surface(int x, int y, SDL_Texture *tex,
+							SDL_Renderer *rend);
+
+/*
+** Reading funcs
+*/
+void						read_map(t_lem *lem);
+void						links_mode(char *line, t_lem *lem);
+int							get_next_line_counter(int mode,
+							int fd, char **line, t_lem *lem);
+void						error(char *message, t_lem *lem);
+t_node						*create_node(char *line, t_lem *lem);
 int				push_node(t_list_of_nodes **list, t_node *node);
 t_list_of_nodes	*create_list_of_nodes(t_node *first_node);
 t_node			*pop_node(t_list_of_nodes **list);
@@ -114,7 +146,20 @@ void			create_link(char *line, t_lem *lem);
 void			steps_mode(char *line, t_lem *lem);
 
 /*
-** For debug purposes
+** Drawing funcs
+*/
+void	draw_rooms(t_visual *vis);
+void	draw_connections(t_visual *vis);
+
+/*
+** Debug funcs
 */
 void	print_steps(t_lem *lem);
+
+/*
+** Misc
+*/
+int		ft_lstlen(t_list_of_nodes *start);
+void	calc_offset(t_visual *vis, t_list_of_nodes *cur);
+
 #endif
