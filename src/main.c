@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:36:15 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/15 20:21:16 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 18:32:41 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void		init_all(t_visual *vis)
 	vis->lem_data = init_lem();
 	read_map(vis->lem_data);
 	calc_draw_fact(vis);
-	print_steps(vis->lem_data);
 	init_sdl(vis);
 }
 
@@ -52,19 +51,15 @@ int	main(void)
 
 	init_all(&vis);
 	is_running = SDL_TRUE;
+	print_steps(vis.lem_data);
 	while (is_running)
 	{
-		SDL_SetRenderDrawColor(vis.rend, 0, 0, 0, SDL_ALPHA_OPAQUE);
-		SDL_RenderClear(vis.rend);
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT)
 				is_running = SDL_FALSE;
 		}
-		SDL_SetRenderDrawColor(vis.rend, 255, 255, 255, SDL_ALPHA_OPAQUE);
-		draw_connections(&vis);
-		draw_rooms(&vis);
-		SDL_RenderPresent(vis.rend);
+		draw_all(&vis);
 	}
 	SDL_DestroyWindow(vis.win);
 	SDL_Quit();

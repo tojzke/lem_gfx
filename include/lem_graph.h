@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:38:50 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/15 20:43:48 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 18:30:49 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,22 @@
 # include "ft_printf.h"
 # include "libft.h"
 # include <math.h>
+
 # define WIN_WIDTH 1024
 # define WIN_HEIGHT 768
-# define FT_INT_MIN -2147483648
-# define FT_INT_MAX 2147483647
 # define ROOM_H 30
 # define ROOM_W 30
+# define LEM_W 50
+# define LEM_H 50
+
+# define ANT_TEX "resources/ant2.png"
+# define BG_TEX "resources/background.jpg"
+
+# define FT_INT_MIN -2147483648
+# define FT_INT_MAX 2147483647
 # define INIT_SCALE 30
-# define SCROLL_SPEED 100
-# define SPEED 100
+# define OFF_DEL 5
+
 # define MAP_ROOMS_MODE			0
 # define MAP_LINKS_MODE			1
 # define MAP_ANTS_MODE			2
@@ -103,7 +110,7 @@ typedef struct				s_visual
 {
 	SDL_Window				*win;
 	SDL_Renderer			*rend;
-	SDL_Texture				*lem;
+	SDL_Texture				*ant;
 	SDL_Texture				*background;
 	SDL_Texture				*room;
 	t_lem					*lem_data;
@@ -135,7 +142,7 @@ int							get_next_line_counter(int mode,
 							int fd, char **line, t_lem *lem);
 void						error(char *message, t_lem *lem);
 t_node						*create_node(char *line, t_lem *lem);
-int				push_node(t_list_of_nodes **list, t_node *node);
+int							push_node(t_list_of_nodes **list, t_node *node);
 t_list_of_nodes	*create_list_of_nodes(t_node *first_node);
 t_node			*pop_node(t_list_of_nodes **list);
 void			remove_node(t_list_of_nodes **list, t_node *node);
@@ -148,8 +155,7 @@ void			steps_mode(char *line, t_lem *lem);
 /*
 ** Drawing funcs
 */
-void	draw_rooms(t_visual *vis);
-void	draw_connections(t_visual *vis);
+void	draw_all(t_visual *vis);
 
 /*
 ** Debug funcs

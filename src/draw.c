@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/15 17:01:21 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/15 20:34:29 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 18:29:47 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	draw_room(t_visual *vis, int x, int y, t_node *room)
 	SDL_RenderFillRect(vis->rend, &rect);
 }
 
-void	draw_rooms(t_visual *vis)
+static void	draw_rooms(t_visual *vis)
 {
 	t_list_of_nodes *cur;
 
@@ -40,14 +40,14 @@ void	draw_rooms(t_visual *vis)
 		cur->node->draw_x += vis->x_off / 5;
 		cur->node->draw_y = cur->node->y * vis->scale;
 		cur->node->draw_y += vis->y_off / 5;
-		ft_printf("Drawing to x:%d y:%d\n",cur->node->draw_x, cur->node->draw_y);
+		// ft_printf("Drawing to x:%d y:%d\n", cur->node->draw_x,
+		// cur->node->draw_y);
 		draw_room(vis, cur->node->draw_x, cur->node->draw_y, cur->node);
 		cur = cur->next;
 	}
 }
 
-
-void	draw_connections(t_visual *vis)
+static void	draw_connections(t_visual *vis)
 {
 	t_list_of_nodes	*cur;
 	t_list_of_nodes	*adj;
@@ -66,4 +66,29 @@ void	draw_connections(t_visual *vis)
 		}
 		cur = cur->next;
 	}
+}
+
+void	draw_ants(t_visual *vis)
+{
+	SDL_Rect d_rect;
+
+	d_rect.x = vis->lem_data->start->draw_x - LEM_W / 2 + ROOM_W / 2 + 50;
+	d_rect.y = vis->lem_data->start->draw_y - LEM_H / 2 + ROOM_H / 2;
+	d_rect.h = LEM_H;
+	d_rect.w = LEM_W;
+	SDL_SetTextureBlendMode(vis->ant, SDL_BLENDMODE_BLEND);
+	SDL_RenderCopy(vis->rend,vis->ant,NULL,&d_rect);
+	
+}
+
+void	draw_all(t_visual *vis)
+{
+	SDL_SetRenderDrawColor(vis->rend, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_RenderClear(vis->rend);
+	SDL_RenderCopy(vis->rend, vis->background, NULL, NULL);
+	SDL_SetRenderDrawColor(vis->rend, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	draw_connections(vis);
+	draw_rooms(vis);
+	draw_ants(vis);
+	SDL_RenderPresent(vis->rend);
 }

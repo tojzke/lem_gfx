@@ -22,6 +22,7 @@ LIB_DIR = lib
 
 MAIN_LIB = SDL2
 IMG_LIB = SDL2_image
+GFX_LIB = SDL2_gfx
 PRT_LIB = ftprintf
 FT_LIB_DIR = libft
 FT_LIB = ft

@@ -6,11 +6,12 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:36:09 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/15 19:38:37 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 18:16:33 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
+
 
 int		init_sdl(t_visual *vis)
 {
@@ -25,7 +26,7 @@ int		init_sdl(t_visual *vis)
 		SDL_DestroyWindow(vis->win);
 		return (-1);
 	}
-	render_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+	render_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE;
 	vis->rend = SDL_CreateRenderer(vis->win, -1, render_flags);
 	if (vis->rend == NULL)
 	{
@@ -34,15 +35,15 @@ int		init_sdl(t_visual *vis)
 		SDL_DestroyRenderer(vis->rend);
 		return (-1);
 	}
-	vis->lem = load_tex("resources/hello.png", vis);
-	vis->background = load_tex("resources/background.jpg", vis);
-	if (vis->lem == NULL || vis->background == NULL)
+	vis->ant = load_tex(ANT_TEX, vis);
+	vis->background = load_tex(BG_TEX, vis);
+	if (vis->ant == NULL || vis->background == NULL)
 	{
 		ft_printf("Error loading bg or lem texture: %s\n",SDL_GetError());
 		SDL_DestroyRenderer(vis->rend);
 		SDL_DestroyWindow(vis->win);
 		SDL_Quit();
-		return (-1);
+		exit(1);
 	}
 	return (0);
 }
