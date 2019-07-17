@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:36:15 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/17 18:32:41 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 19:05:56 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_lem	*init_lem(void)
 	lem->end = NULL;
 	lem->flag_color = 0;
 	lem->steps = NULL;
+	lem->cur_step = NULL;
 	return (lem);
 }
 

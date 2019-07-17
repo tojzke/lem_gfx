@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 20:28:52 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/17 18:17:46 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 19:08:55 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ SDL_Texture *load_tex(const char *file_name, t_visual *vis)
 {
 	SDL_Surface	*loaded_image;
 	SDL_Texture	*tex;
-	Uint32 		colorkey;
+	Uint32		colorkey;
 
 	loaded_image = IMG_Load(file_name);
 	if (loaded_image != NULL)
@@ -30,8 +30,6 @@ SDL_Texture *load_tex(const char *file_name, t_visual *vis)
 		SDL_FreeSurface(loaded_image);
 	}
 	else
-	{
-		ft_printf("Can't create texture %s\n",SDL_GetError());
-	}
+		ft_printf("Can't create texture %s\n", SDL_GetError());
 	return (tex);
 }

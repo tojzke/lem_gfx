@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 19:12:23 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/13 18:24:08 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 20:42:20 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	ants_mode(char *line, int *mode, t_lem *lem)
 	{
 		itoa = ft_itoa(ft_atoi(line));
 		if (ft_strequ(itoa, line) && ft_atoi(line) > 0)
-			lem->ants = ft_atoi(line);
+			lem->ants_count = ft_atoi(line);
 		else
 			error("Number of ants must be a positive integer", lem);
 		ft_strdel(&itoa);

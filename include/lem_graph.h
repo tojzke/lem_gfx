@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:38:50 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/17 18:30:49 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 20:48:28 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@
 # define BG_RED					"\033[41m"
 # define BG_DEFAULT				"\033[40m"
 
+
+/*
+** Struct for representing a room
+*/
 typedef struct	s_node
 {
 	char					*name;
@@ -65,36 +69,56 @@ typedef struct	s_node
 	int						bfs_in_queue;
 	int						marked;
 }				t_node;
-/*
-** Struct for representing a room
-*/
 
+/*
+** List of rooms
+*/
 typedef struct	s_list_of_nodes
 {
 	t_node					*node;
 	struct s_list_of_nodes	*next;
 }				t_list_of_nodes;
-/*
-** List of rooms
-*/
 
+/*
+** List of steps
+** step - 2d array of positions of lem on current step
+**	(e.g. step[0] == "L1-s2", step[1] == "L2-s1")
+** next - link to next step
+*/
 typedef	struct				s_list_of_steps
 {
 	char					**step;
 	struct s_list_of_steps	*next;
 }							t_list_of_steps;
 
-/*
-** step - 2d array of positions of lem on current step
-**	(e.g. step[0] == "L1-s2", step[1] == "L2-s1")
-** next - link to next step
-*/
 
+/*
+** List of ants
+** id - unique number of ant
+** pos - pointer to node where ant is
+** next_pos - link to node where ant is moving towards to
+** next - link to next ant
+*/
+typedef struct				s_list_of_ants
+{
+	int						id;
+	t_node					*pos;
+	t_node					*next_pos;
+	float					percent;
+	struct s_list_of_ants	*next;
+
+}							t_list_of_ants;
+
+/*
+** Struct for lem-in solution
+*/
 typedef struct				s_lem
 {
-	int						ants;
+	int						ants_count;
+	t_list_of_ants			*ants;
 	t_list_of_nodes			*nodes;
 	t_list_of_steps			*steps;
+	t_list_of_steps			*cur_step;
 	t_node					*start;
 	t_node					*end;
 	int						flag_steps;
@@ -103,9 +127,11 @@ typedef struct				s_lem
 }							t_lem;
 
 /*
-** Struct for lem-in solution
+** Main struct for visualizing lem-in
+** (win, rend) - members of window an renderer
+** (lem, background, room) - textures for drawing
+**	lem_data - actual lem-in data (rooms, links, ants)
 */
-
 typedef struct				s_visual
 {
 	SDL_Window				*win;
@@ -117,13 +143,10 @@ typedef struct				s_visual
 	int						x_off;
 	int						y_off;
 	int						scale;
+	unsigned int			last_time;
+	unsigned int			current_time;
 }							t_visual;
-/*
-** Main struct for visualizing lem-in
-** (win, rend) - members of window an renderer
-** (lem, background, room) - textures for drawing
-**	lem_data - actual lem-in data (rooms, links, ants)
-*/
+
 
 /*
 ** SDL dependent funcs
@@ -156,11 +179,13 @@ void			steps_mode(char *line, t_lem *lem);
 ** Drawing funcs
 */
 void	draw_all(t_visual *vis);
+void	draw_ants(t_visual *vis);
 
 /*
 ** Debug funcs
 */
 void	print_steps(t_lem *lem);
+void	print_ants(t_lem *lem);
 
 /*
 ** Misc

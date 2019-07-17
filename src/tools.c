@@ -6,30 +6,11 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 19:00:43 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/15 20:28:17 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/17 20:45:18 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
-
-void	print_steps(t_lem *lem)
-{
-	t_list_of_steps *step;
-	int				i;
-
-	step = lem->steps;
-	while (step != NULL)
-	{
-		i = 0;
-		while (step->step[i] != NULL)
-		{
-			ft_printf(" %s ", step->step[i]);
-			i++;
-		}
-		ft_putchar('\n');
-		step = step->next;
-	}
-}
 
 int		ft_lstlen(t_list_of_nodes *start)
 {
@@ -68,5 +49,5 @@ void	calc_offset(t_visual *vis, t_list_of_nodes *cur)
 	if (WIN_WIDTH - abs(x_max - x_min) + ROOM_W < 0 ||
 		WIN_HEIGHT - abs(y_max - y_min) + ROOM_H < 0)
 		error("Map is too big", vis->lem_data);
-	ft_printf("Set x_off:%d y_off:%d\n",vis->x_off, vis->y_off);
+	ft_printf("Set x_off:%d y_off:%d\n", vis->x_off, vis->y_off);
 }
