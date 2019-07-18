@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:38:50 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 18:31:11 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/18 18:44:41 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define FT_INT_MAX 2147483647
 # define INIT_SCALE 30
 # define OFF_DEL 5
-# define ANT_SPEED 1
+# define ANT_SPEED 59.0
 
 # define MAP_ROOMS_MODE			0
 # define MAP_LINKS_MODE			1
@@ -197,6 +197,7 @@ t_node						*get_next_pos(char *str, t_list_of_nodes *room);
 int							get_id(char *str);
 void						remove_ant(t_list_of_ants **ants,
 							t_list_of_ants *ant);
+void						set_unfinished(t_list_of_ants *ant);
 
 /*
 ** Debug funcs

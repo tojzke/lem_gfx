@@ -6,61 +6,35 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 17:31:00 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 18:24:00 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/18 19:37:54 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
 
-/*
-** If ant reached next node update its pos and next_pos
-*/
-
-void	update_ant_pos(t_list_of_ants *ant,
-t_list_of_steps *cur, t_list_of_nodes *room)
-{
-	int	i;
-
-	if (cur->next != NULL)
-	{
-		i = 0;
-		cur = cur->next;
-		ant->pos = ant->next_pos;
-		while (cur->step[i] != NULL)
-		{
-			if (ant->id == get_id(cur->step[i]))
-			{
-				ant->next_pos = get_next_pos(cur->step[i], room);
-				return ;
-			}
-			i++;
-		}
-	}
-}
-
-/*
-** Checks if ant has reached its next_pos
-*/
-
-int		is_finished(t_list_of_ants *ant,
-					t_list_of_steps *cur, t_list_of_nodes *room)
+void	calc_speed(t_list_of_ants *ant, float *x_vel, float *y_vel)
 {
 	int		x_diff;
 	int		y_diff;
-	int		diff;
 
-	x_diff = (ant->next_pos->draw_x + ROOM_W / 2) - (ant->x_pos);
-	x_diff *= x_diff;
-	y_diff = (ant->next_pos->draw_y + ROOM_H / 2) - (ant->y_pos);
-	y_diff *= y_diff;
-	diff = sqrt(x_diff + y_diff);
-	printf("diff is %d\n",diff);
-	if ((int)sqrt(x_diff + y_diff) < (LEM_W))
+	x_diff = (int)abs(ant->next_pos->draw_x - ant->pos->draw_x);
+	y_diff = (int)abs(ant->next_pos->draw_y - ant->pos->draw_y);
+	if (x_diff > y_diff)
 	{
-		update_ant_pos(ant, cur, room);
-		return (ant->finished = 1);
+		*y_vel = ANT_SPEED / 60.0;
+		if (y_diff != 0)
+			*x_vel = ANT_SPEED * ((float)x_diff / (float)y_diff) / 60;
+		else
+			*x_vel = ANT_SPEED / 60.0;
 	}
-	return (ant->finished = 0);
+	else
+	{
+		*x_vel = ANT_SPEED / 60.0;
+		if (x_diff != 0)
+			*y_vel = ANT_SPEED * ((float)y_diff / (float)x_diff) / 60;
+		else
+			*y_vel = ANT_SPEED / 60.0;
+	}
 }
 
 /*
@@ -71,19 +45,23 @@ void	update_x_y(t_list_of_ants *ant, SDL_Rect *rect)
 {
 	float	x_pos;
 	float	y_pos;
+	float	x_vel;
+	float	y_vel;
 
 	x_pos = ant->x_pos;
 	y_pos = ant->y_pos;
+	float tmp_speed = ANT_SPEED / 60.0;
 	if (!ant->finished)
 	{
+		calc_speed(ant, &x_vel, &y_vel);
 		if ((ant->pos->draw_x + ROOM_W / 2) < (ant->next_pos->draw_x + ROOM_W / 2))
-			x_pos += ANT_SPEED;
+			x_pos += x_vel;
 		else if ((ant->pos->draw_x + ROOM_W / 2) > (ant->next_pos->draw_x + ROOM_W / 2))
-			x_pos -= ANT_SPEED;
+			x_pos -= x_vel;
 		if ((ant->pos->draw_y + ROOM_H / 2) < (ant->next_pos->draw_y + ROOM_H / 2))
-			y_pos += ANT_SPEED;
+			y_pos += y_vel;
 		else if ((ant->pos->draw_y + ROOM_H / 2) > (ant->next_pos->draw_y + ROOM_H / 2))
-			y_pos -= ANT_SPEED;
+			y_pos -= y_vel;
 	}
 	ant->x_pos = x_pos;
 	ant->y_pos = y_pos;
@@ -93,13 +71,3 @@ void	update_x_y(t_list_of_ants *ant, SDL_Rect *rect)
 	rect->y = (int)y_pos;
 }
 
-int		step_done(t_list_of_ants *ant)
-{
-	while (ant != NULL)
-	{
-		if (!ant->finished)
-			return (0);
-		ant = ant->next;
-	}
-	return (1);
-}

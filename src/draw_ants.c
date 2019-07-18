@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 19:06:44 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 18:14:46 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/18 20:23:58 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ t_list_of_ants	*find_ant(t_lem *lem, char *ant_step)
 	while (ant != NULL)
 	{
 		if (ant->id == get_id(ant_step))
-		{
-			ft_printf("Found %d\n", ant->id);
 			return (ant);
-		}
 		ant = ant->next;
 	}
+	if (get_next_pos(ant_step, lem->nodes) == lem->end)
+		return (NULL);
 	return (create_ant(lem, ant_step));
+	
 }
 
 void					remove_ant(t_list_of_ants **ants, t_list_of_ants *ant)
@@ -98,6 +98,14 @@ void					remove_ant(t_list_of_ants **ants, t_list_of_ants *ant)
 	free(tmp);
 }
 
+// void	pop_ant(t_list_of_ants **ants, t_list_of_ants *remove)
+// {
+// 	t_list_of_ants *tmp;
+// 	t_list_of_ants *start;
+
+
+// }
+
 void	draw_ants(t_visual *vis)
 {
 	SDL_Rect		d_rect;
@@ -113,17 +121,28 @@ void	draw_ants(t_visual *vis)
 	i = 0;
 	while (cr_step->step[i] != NULL)
 	{
-		ant = find_ant(vis->lem_data, cr_step->step[i]);
-		update_x_y(ant, &d_rect);
-		if (is_finished(ant, cr_step, vis->lem_data->nodes) && ant->pos == vis->lem_data->end)
+		if (!(ant = find_ant(vis->lem_data, cr_step->step[i])))
 		{
+			i++;
+			continue ;
+		}
+		update_x_y(ant, &d_rect);
+		if (is_finished(ant, cr_step, vis->lem_data->nodes) &&
+		ant->pos == vis->lem_data->end)
+		{
+			printf("Ant %d reached end\n",ant->id);
 			remove_ant(&vis->lem_data->ants, ant);
+			// printf("Ant list now\n");
+			print_ants(vis->lem_data);
+			i++;
 			continue;
 		}
 		SDL_RenderCopy(vis->rend, vis->ant, NULL, &d_rect);
 		i++;
 	}
-	print_ants(vis->lem_data);
 	if (step_done(vis->lem_data->ants))
+	{
 		vis->lem_data->cur_step = cr_step->next;
+		set_unfinished(vis->lem_data->ants);
+	}
 }
