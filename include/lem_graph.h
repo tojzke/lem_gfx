@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:38:50 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/17 20:48:28 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/18 18:31:11 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@
 
 # define WIN_WIDTH 1024
 # define WIN_HEIGHT 768
-# define ROOM_H 30
-# define ROOM_W 30
-# define LEM_W 50
-# define LEM_H 50
+# define ROOM_H 20
+# define ROOM_W 20
+# define LEM_W 30
+# define LEM_H 30
+
+#define STEP_TIME 1000
 
 # define ANT_TEX "resources/ant2.png"
 # define BG_TEX "resources/background.jpg"
@@ -33,6 +35,7 @@
 # define FT_INT_MAX 2147483647
 # define INIT_SCALE 30
 # define OFF_DEL 5
+# define ANT_SPEED 1
 
 # define MAP_ROOMS_MODE			0
 # define MAP_LINKS_MODE			1
@@ -104,7 +107,9 @@ typedef struct				s_list_of_ants
 	int						id;
 	t_node					*pos;
 	t_node					*next_pos;
-	float					percent;
+	float					x_pos;
+	float					y_pos;
+	int						finished;
 	struct s_list_of_ants	*next;
 
 }							t_list_of_ants;
@@ -143,8 +148,8 @@ typedef struct				s_visual
 	int						x_off;
 	int						y_off;
 	int						scale;
-	unsigned int			last_time;
-	unsigned int			current_time;
+	unsigned int			step_speed;
+
 }							t_visual;
 
 
@@ -166,31 +171,43 @@ int							get_next_line_counter(int mode,
 void						error(char *message, t_lem *lem);
 t_node						*create_node(char *line, t_lem *lem);
 int							push_node(t_list_of_nodes **list, t_node *node);
-t_list_of_nodes	*create_list_of_nodes(t_node *first_node);
-t_node			*pop_node(t_list_of_nodes **list);
-void			remove_node(t_list_of_nodes **list, t_node *node);
-int				node_in_path(t_list_of_nodes *path, t_node *node);
-void			create_link(char *line, t_lem *lem);
-void			rooms_mode(char *line, int *mode, t_lem *lem);
-void			create_link(char *line, t_lem *lem);
-void			steps_mode(char *line, t_lem *lem);
+t_list_of_nodes				*create_list_of_nodes(t_node *first_node);
+t_node						*pop_node(t_list_of_nodes **list);
+void						remove_node(t_list_of_nodes **list, t_node *node);
+int							node_in_path(t_list_of_nodes *path, t_node *node);
+void						create_link(char *line, t_lem *lem);
+void						rooms_mode(char *line, int *mode, t_lem *lem);
+void						create_link(char *line, t_lem *lem);
+void						steps_mode(char *line, t_lem *lem);
 
 /*
 ** Drawing funcs
 */
-void	draw_all(t_visual *vis);
-void	draw_ants(t_visual *vis);
+void						draw_all(t_visual *vis);
+void						draw_ants(t_visual *vis);
+
+/*
+** Moving ants
+*/
+void						update_x_y(t_list_of_ants *ant, SDL_Rect *rect);
+int							is_finished(t_list_of_ants *ant,
+							t_list_of_steps *cur, t_list_of_nodes *room);
+int							step_done(t_list_of_ants *ant);
+t_node						*get_next_pos(char *str, t_list_of_nodes *room);
+int							get_id(char *str);
+void						remove_ant(t_list_of_ants **ants,
+							t_list_of_ants *ant);
 
 /*
 ** Debug funcs
 */
-void	print_steps(t_lem *lem);
-void	print_ants(t_lem *lem);
+void						print_steps(t_lem *lem);
+void						print_ants(t_lem *lem);
 
 /*
 ** Misc
 */
-int		ft_lstlen(t_list_of_nodes *start);
-void	calc_offset(t_visual *vis, t_list_of_nodes *cur);
+int							ft_lstlen(t_list_of_nodes *start);
+void						calc_offset(t_visual *vis, t_list_of_nodes *cur);
 
 #endif

@@ -12,7 +12,8 @@ _SRC =	init_sdl.c \
 		tools.c \
 		draw.c \
 		draw_ants.c \
-		dbg_tools.c
+		dbg_tools.c \
+		moving_ants.c
 
 SRC = $(addprefix src/,$(_SRC))
 

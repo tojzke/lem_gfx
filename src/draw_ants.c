@@ -6,26 +6,11 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 19:06:44 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/17 21:13:17 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/18 18:14:46 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
-
-static void	calc_ant_x_y(t_visual *vis, t_list_of_ants *ant, SDL_Rect *rect)
-{
-	int		calc_x;
-	int		calc_y;
-
-	calc_x = ((ant->next_pos->draw_x - LEM_W / 2 + ROOM_W / 2) -
-	(ant->pos->draw_x - LEM_W / 2 + ROOM_W / 2)) * ant->percent;
-	calc_y = ((ant->next_pos->draw_y - LEM_H / 2 + ROOM_H / 2) -
-	(ant->pos->draw_y - LEM_H / 2 + ROOM_H / 2)) * ant->percent;
-	rect->x = vis->lem_data->start->draw_x - LEM_W / 2 + ROOM_W / 2;
-	rect->y = vis->lem_data->start->draw_y - LEM_H / 2 + ROOM_H / 2;
-	rect->h = LEM_H;
-	rect->w = LEM_W;
-}
 
 int		get_id(char *str)
 {
@@ -54,6 +39,9 @@ t_list_of_ants	*create_ant(t_lem *lem, char *ant_step)
 	ant->id = get_id(ant_step);
 	ant->pos = lem->start;
 	ant->next_pos = get_next_pos(ant_step, lem->nodes);
+	ant->x_pos = ant->pos->draw_x + ROOM_W / 2 - LEM_W / 2;
+	ant->y_pos = ant->pos->draw_y + ROOM_H / 2 - LEM_H / 2;
+	ant->finished = 0;
 	ant->next = NULL;
 	if (lem->ants == NULL)
 		return (lem->ants = ant);
@@ -74,12 +62,40 @@ t_list_of_ants	*find_ant(t_lem *lem, char *ant_step)
 	{
 		if (ant->id == get_id(ant_step))
 		{
-			ft_printf("Found %d\n",ant->id);
+			ft_printf("Found %d\n", ant->id);
 			return (ant);
 		}
 		ant = ant->next;
 	}
 	return (create_ant(lem, ant_step));
+}
+
+void					remove_ant(t_list_of_ants **ants, t_list_of_ants *ant)
+{
+	t_list_of_ants *tmp;
+	t_list_of_ants *start;
+
+	tmp = NULL;
+	if (*ants == ant)
+	{
+		tmp = *ants;
+		*ants = (*ants)->next;
+	}
+	else
+	{
+		start = *ants;
+		while (start->next)
+		{
+			if (start->next == ant)
+			{
+				tmp = start->next;
+				start->next = start->next->next;
+				break ;
+			}
+			start = start->next;
+		}
+	}
+	free(tmp);
 }
 
 void	draw_ants(t_visual *vis)
@@ -89,20 +105,25 @@ void	draw_ants(t_visual *vis)
 	t_list_of_steps	*cr_step;
 	int				i;
 
-	i = 0;
 	if (vis->lem_data->ants == NULL)
 		vis->lem_data->cur_step = vis->lem_data->steps;
 	else if (vis->lem_data->cur_step == NULL)
-		exit(0);
+		return ; // end moving properply
 	cr_step = vis->lem_data->cur_step;
+	i = 0;
 	while (cr_step->step[i] != NULL)
 	{
 		ant = find_ant(vis->lem_data, cr_step->step[i]);
-		//calc_percent(ant)
-		//calc_ant_x_y(ant)
-		// SDL_RenderCopy(vis->rend, vis->ant, NULL, &d_rect);
+		update_x_y(ant, &d_rect);
+		if (is_finished(ant, cr_step, vis->lem_data->nodes) && ant->pos == vis->lem_data->end)
+		{
+			remove_ant(&vis->lem_data->ants, ant);
+			continue;
+		}
+		SDL_RenderCopy(vis->rend, vis->ant, NULL, &d_rect);
 		i++;
 	}
 	print_ants(vis->lem_data);
-	vis->lem_data->cur_step = cr_step->next;
+	if (step_done(vis->lem_data->ants))
+		vis->lem_data->cur_step = cr_step->next;
 }

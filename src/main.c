@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:36:15 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/17 19:05:56 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/18 17:02:22 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void		init_all(t_visual *vis)
 {
 	ft_memset(vis, 0, sizeof(t_visual));
 	vis->lem_data = init_lem();
+	vis->step_speed = 2000;
 	read_map(vis->lem_data);
 	calc_draw_fact(vis);
 	init_sdl(vis);
