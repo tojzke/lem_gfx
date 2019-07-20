@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:38:50 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 18:44:41 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/20 18:48:05 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,29 @@
 # include "SDL2/SDL.h"
 # include "SDL2/SDL_image.h"
 # include "SDL2/SDL_timer.h"
+# include "SDL2/SDL_ttf.h"
 # include "ft_printf.h"
 # include "libft.h"
 # include <math.h>
 
 # define WIN_WIDTH 1024
 # define WIN_HEIGHT 768
-# define ROOM_H 20
-# define ROOM_W 20
+# define ROOM_H 30
+# define ROOM_W 30
 # define LEM_W 30
 # define LEM_H 30
 
-#define STEP_TIME 1000
+# define ANT_TEX "resources/qt_ant.png"
 
-# define ANT_TEX "resources/ant2.png"
-# define BG_TEX "resources/background.jpg"
+# define GUI_FONT_SIZE 20
+# define GUI_W 20
+# define GUI_H 10
 
 # define FT_INT_MIN -2147483648
 # define FT_INT_MAX 2147483647
 # define INIT_SCALE 30
 # define OFF_DEL 5
-# define ANT_SPEED 59.0
+# define ANT_SPEED 60
 
 # define MAP_ROOMS_MODE			0
 # define MAP_LINKS_MODE			1
@@ -120,6 +122,7 @@ typedef struct				s_list_of_ants
 typedef struct				s_lem
 {
 	int						ants_count;
+	int						ants_finished;
 	t_list_of_ants			*ants;
 	t_list_of_nodes			*nodes;
 	t_list_of_steps			*steps;
@@ -185,6 +188,8 @@ void						steps_mode(char *line, t_lem *lem);
 */
 void						draw_all(t_visual *vis);
 void						draw_ants(t_visual *vis);
+void						put_text(SDL_Renderer *rend, int x, int y,
+							char *text_msg);
 
 /*
 ** Moving ants
@@ -198,6 +203,8 @@ int							get_id(char *str);
 void						remove_ant(t_list_of_ants **ants,
 							t_list_of_ants *ant);
 void						set_unfinished(t_list_of_ants *ant);
+int							move_ant(t_list_of_ants *ant, t_list_of_steps *cr_step, 
+							t_visual *vis);
 
 /*
 ** Debug funcs

@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 17:29:35 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/15 18:37:56 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/20 16:59:22 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,6 @@ void	steps_mode(char *line, t_lem *lem)
 			steps = steps->next;
 		steps->next = create_step_node(line);
 	}
+	if (lem->ants == NULL)
+		lem->cur_step = lem->steps;
 }

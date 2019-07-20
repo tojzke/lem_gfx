@@ -6,12 +6,12 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/15 17:01:21 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 17:24:25 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/20 18:50:47 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
-
+# define BUFF 255
 static void	draw_room(t_visual *vis, int x, int y, t_node *room)
 {
 	SDL_Rect	rect;
@@ -40,8 +40,6 @@ static void	draw_rooms(t_visual *vis)
 		cur->node->draw_x += vis->x_off / 5;
 		cur->node->draw_y = cur->node->y * vis->scale;
 		cur->node->draw_y += vis->y_off / 5;
-		// ft_printf("Drawing to x:%d y:%d\n", cur->node->draw_x,
-		// cur->node->draw_y);
 		draw_room(vis, cur->node->draw_x, cur->node->draw_y, cur->node);
 		cur = cur->next;
 	}
@@ -68,14 +66,18 @@ static void	draw_connections(t_visual *vis)
 	}
 }
 
+// static void	draw_text(t_visual *vis)
+// {
+// 	draw_ant_count(vis);	
+// }
+
 void	draw_all(t_visual *vis)
 {
-	SDL_SetRenderDrawColor(vis->rend, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor(vis->rend, 153, 153, 153, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(vis->rend);
-	SDL_RenderCopy(vis->rend, vis->background, NULL, NULL);
-	SDL_SetRenderDrawColor(vis->rend, 255, 255, 255, SDL_ALPHA_OPAQUE);
 	draw_connections(vis);
 	draw_rooms(vis);
 	draw_ants(vis);
+	// draw_text(vis);
 	SDL_RenderPresent(vis->rend);
 }

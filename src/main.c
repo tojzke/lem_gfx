@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:36:15 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 17:02:22 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/20 18:36:38 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void		init_all(t_visual *vis)
 	read_map(vis->lem_data);
 	calc_draw_fact(vis);
 	init_sdl(vis);
+	TTF_Init();
 }
 
 int	main(void)

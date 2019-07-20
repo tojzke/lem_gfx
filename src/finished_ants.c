@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 18:57:43 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 20:18:06 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/20 18:51:26 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ int		is_finished(t_list_of_ants *ant,
 
 	if (ant->finished == 1)
 		return (1);
-	x_diff = (ant->next_pos->draw_x + LEM_W / 2) - (ant->x_pos + LEM_W / 2);
+	x_diff = (ant->next_pos->draw_x + ROOM_W / 2) - (ant->x_pos + LEM_W / 2);
 	x_diff *= x_diff;
-	y_diff = (ant->next_pos->draw_y + LEM_H / 2) - (ant->y_pos + LEM_H / 2);
+	y_diff = (ant->next_pos->draw_y + ROOM_H / 2) - (ant->y_pos + LEM_H / 2);
 	y_diff *= y_diff;
 	diff = sqrt(x_diff + y_diff);
-	if ((int)sqrt(x_diff + y_diff) < (LEM_W))
+	if ((int)sqrt(x_diff + y_diff) < (2))
 	{
 		update_ant_pos(ant, cur, room);
 		return (ant->finished = 1);

@@ -27,6 +27,7 @@ LIB_DIR = lib
 MAIN_LIB = SDL2
 IMG_LIB = SDL2_image
 GFX_LIB = SDL2_gfx
+TTF_LIB = SDL2_ttf
 PRT_LIB = ftprintf
 FT_LIB_DIR = libft
 FT_LIB = ft
@@ -37,7 +38,8 @@ MAP =
 
 
 $(NAME) : $(OBJ) 
-	gcc -o $(NAME) $(OBJ) -I $(INCLUDE) -L $(LIB_DIR) -l$(MAIN_LIB) -l$(IMG_LIB) -l$(PRT_LIB) -L$(FT_LIB_DIR) -l$(FT_LIB)
+	gcc -o $(NAME) $(OBJ) -I $(INCLUDE) -L $(LIB_DIR) -l$(MAIN_LIB) -l$(IMG_LIB) -l$(TTF_LIB) \
+	-l$(PRT_LIB) -L$(FT_LIB_DIR) -l$(FT_LIB)
 
 obj/%.o: src/%.c $(INCLUDE)/*.h
 	@mkdir -p obj

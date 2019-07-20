@@ -6,17 +6,25 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 19:06:44 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 20:23:58 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/07/20 17:15:36 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
+
+/*
+** Get and id in current step
+*/
 
 int		get_id(char *str)
 {
 	str = ft_strchr(str, 'L') + 1;
 	return (ft_atoi(str));
 }
+
+/*
+** Get position where ant is moving towards
+*/
 
 t_node	*get_next_pos(char *str, t_list_of_nodes *room)
 {
@@ -29,6 +37,10 @@ t_node	*get_next_pos(char *str, t_list_of_nodes *room)
 	}
 	return (NULL);
 }
+
+/*
+** Create node with ant info
+*/
 
 t_list_of_ants	*create_ant(t_lem *lem, char *ant_step)
 {
@@ -53,6 +65,11 @@ t_list_of_ants	*create_ant(t_lem *lem, char *ant_step)
 	return (tmp->next = ant);
 }
 
+/*
+** Find ant in ant list
+** if can't find ant with this id - create new ant
+*/
+
 t_list_of_ants	*find_ant(t_lem *lem, char *ant_step)
 {
 	t_list_of_ants *ant;
@@ -67,8 +84,11 @@ t_list_of_ants	*find_ant(t_lem *lem, char *ant_step)
 	if (get_next_pos(ant_step, lem->nodes) == lem->end)
 		return (NULL);
 	return (create_ant(lem, ant_step));
-	
 }
+
+/*
+** If ant reached end - remove him from the list
+*/
 
 void					remove_ant(t_list_of_ants **ants, t_list_of_ants *ant)
 {
@@ -98,46 +118,28 @@ void					remove_ant(t_list_of_ants **ants, t_list_of_ants *ant)
 	free(tmp);
 }
 
-// void	pop_ant(t_list_of_ants **ants, t_list_of_ants *remove)
-// {
-// 	t_list_of_ants *tmp;
-// 	t_list_of_ants *start;
-
-
-// }
+/*
+** Update positions of each ant and draw them
+*/
 
 void	draw_ants(t_visual *vis)
 {
-	SDL_Rect		d_rect;
 	t_list_of_ants	*ant;
 	t_list_of_steps	*cr_step;
 	int				i;
 
-	if (vis->lem_data->ants == NULL)
-		vis->lem_data->cur_step = vis->lem_data->steps;
-	else if (vis->lem_data->cur_step == NULL)
-		return ; // end moving properply
+	if (vis->lem_data->cur_step == NULL)
+		return ;
 	cr_step = vis->lem_data->cur_step;
 	i = 0;
 	while (cr_step->step[i] != NULL)
 	{
-		if (!(ant = find_ant(vis->lem_data, cr_step->step[i])))
+		if (!(ant = find_ant(vis->lem_data, cr_step->step[i])) ||
+		!move_ant(ant, cr_step, vis))
 		{
 			i++;
 			continue ;
 		}
-		update_x_y(ant, &d_rect);
-		if (is_finished(ant, cr_step, vis->lem_data->nodes) &&
-		ant->pos == vis->lem_data->end)
-		{
-			printf("Ant %d reached end\n",ant->id);
-			remove_ant(&vis->lem_data->ants, ant);
-			// printf("Ant list now\n");
-			print_ants(vis->lem_data);
-			i++;
-			continue;
-		}
-		SDL_RenderCopy(vis->rend, vis->ant, NULL, &d_rect);
 		i++;
 	}
 	if (step_done(vis->lem_data->ants))
