@@ -6,13 +6,13 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 19:12:23 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/17 20:42:20 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 20:17:58 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
 
-int	get_next_line_counter(int mode, int fd, char **line, t_lem *lem)
+int				get_next_line_counter(int mode, int fd, char **line, t_lem *lem)
 {
 	static int	count = 0;
 	int			res;
@@ -35,27 +35,7 @@ int	get_next_line_counter(int mode, int fd, char **line, t_lem *lem)
 		return (0);
 }
 
-void			error(char *message, t_lem *lem)
-{
-	char *line;
-	char *color;
-
-	if (lem->flag_color)
-		color = RED;
-	else
-		color = DEFAULT;
-	while (get_next_line(0, &line) == 1)
-	{
-		ft_printf("%s%s%s\n", color, line, DEFAULT);
-		ft_strdel(&line);
-	}
-	ft_printf("\n%sERROR line %d: %s%s\n", color,
-		get_next_line_counter(GNL_RETURN_COUNT_MODE, 0, NULL, lem),
-		message, DEFAULT);
-	exit(0);
-}
-
-static int	command(char *line)
+static int		command(char *line)
 {
 	if (ft_strequ(line, "##start") ||
 	ft_strequ(line, "##end") ||
@@ -65,9 +45,9 @@ static int	command(char *line)
 		return (0);
 }
 
-static void	ants_mode(char *line, int *mode, t_lem *lem)
+static void		ants_mode(char *line, int *mode, t_lem *lem)
 {
-	char *itoa;
+	char		*itoa;
 
 	if (command(line))
 		error("Commands are forbidden before number of ants", lem);
@@ -83,7 +63,7 @@ static void	ants_mode(char *line, int *mode, t_lem *lem)
 	}
 }
 
-void		links_mode(char *line, t_lem *lem)
+void			links_mode(char *line, t_lem *lem)
 {
 	if (command(line))
 		error("Commands are forbidden for links", lem);
@@ -91,10 +71,10 @@ void		links_mode(char *line, t_lem *lem)
 		create_link(line, lem);
 }
 
-void		read_map(t_lem *lem)
+void			read_map(t_lem *lem)
 {
-	char	*line;
-	int		mode;
+	char		*line;
+	int			mode;
 
 	mode = MAP_ANTS_MODE;
 	while (get_next_line_counter(GNL_READ_MODE, 0, &line, lem))

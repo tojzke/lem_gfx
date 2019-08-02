@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 19:00:43 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/17 20:45:18 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 20:11:23 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,26 @@ int		ft_lstlen(t_list_of_nodes *start)
 		len++;
 	}
 	return (len);
+}
+
+void	error(char *message, t_lem *lem)
+{
+	char *line;
+	char *color;
+
+	if (lem->flag_color)
+		color = RED;
+	else
+		color = DEFAULT;
+	while (get_next_line(0, &line) == 1)
+	{
+		ft_printf("%s%s%s\n", color, line, DEFAULT);
+		ft_strdel(&line);
+	}
+	ft_printf("\n%sERROR line %d: %s%s\n", color,
+		get_next_line_counter(GNL_RETURN_COUNT_MODE, 0, NULL, lem),
+		message, DEFAULT);
+	exit(0);
 }
 
 void	calc_offset(t_visual *vis, t_list_of_nodes *cur)

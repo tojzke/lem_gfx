@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 17:31:00 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/20 18:04:56 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 19:45:54 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,30 @@ t_visual *vis)
 	}
 	SDL_RenderCopy(vis->rend, vis->ant, NULL, &d_rect);
 	return (1);
+}
+
+/*
+** Get and id in current step
+*/
+
+int		get_id(char *str)
+{
+	str = ft_strchr(str, 'L') + 1;
+	return (ft_atoi(str));
+}
+
+/*
+** Get position where ant is moving towards
+*/
+
+t_node	*get_next_pos(char *str, t_list_of_nodes *room)
+{
+	str = ft_strchr(str, '-') + 1;
+	while (room != NULL)
+	{
+		if (ft_strequ(str, room->node->name))
+			return (room->node);
+		room = room->next;
+	}
+	return (NULL);
 }

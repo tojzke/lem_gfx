@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 17:29:35 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/20 16:59:22 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 19:36:01 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_list_of_steps	*create_step_node(char *line)
 {
-	t_list_of_steps *node;
+	t_list_of_steps	*node;
 
 	node = (t_list_of_steps*)ft_memalloc(sizeof(t_list_of_steps));
 	node->step = ft_strsplit(line, ' ');
@@ -22,7 +22,7 @@ t_list_of_steps	*create_step_node(char *line)
 	return (node);
 }
 
-void	steps_mode(char *line, t_lem *lem)
+void			steps_mode(char *line, t_lem *lem)
 {
 	t_list_of_steps	*steps;
 

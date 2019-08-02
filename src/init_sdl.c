@@ -6,13 +6,13 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:36:09 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/20 18:47:23 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 19:44:00 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
 
-int	init_window(t_visual *vis)
+int			init_window(t_visual *vis)
 {
 	vis->win = SDL_CreateWindow("lem-gfx", SDL_WINDOWPOS_CENTERED,
 	SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
@@ -26,9 +26,9 @@ int	init_window(t_visual *vis)
 	return (1);
 }
 
-int		init_render(t_visual *vis)
+int			init_render(t_visual *vis)
 {
-	Uint32 render_flags;
+	Uint32	render_flags;
 
 	render_flags = SDL_RENDERER_ACCELERATED |
 	SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE;
@@ -44,7 +44,7 @@ int		init_render(t_visual *vis)
 	return (1);
 }
 
-int		init_text(t_visual *vis)
+int			init_text(t_visual *vis)
 {
 	vis->ant = load_tex(ANT_TEX, vis);
 	if (vis->ant == NULL)
@@ -58,9 +58,8 @@ int		init_text(t_visual *vis)
 	return (1);
 }
 
-int		init_sdl(t_visual *vis)
+int			init_sdl(t_visual *vis)
 {
-
 	SDL_Init(SDL_INIT_EVERYTHING);
 	if (!init_window(vis))
 		exit(1);

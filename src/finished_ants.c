@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 18:57:43 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/20 18:51:26 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 19:40:05 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 ** If ant reached next node update its pos and next_pos
 */
 
-void	update_ant_pos(t_list_of_ants *ant,
+void		update_ant_pos(t_list_of_ants *ant,
 t_list_of_steps *cur, t_list_of_nodes *room)
 {
-	int	i;
+	int		i;
 
-	// printf("%d ant finished on %s pos\n",ant->id, ant->next_pos->name);
 	if (cur->next != NULL)
 	{
 		i = 0;
@@ -44,7 +43,7 @@ t_list_of_steps *cur, t_list_of_nodes *room)
 ** Checks if every ant is finished his step == step fully finished
 */
 
-int		step_done(t_list_of_ants *ant)
+int			step_done(t_list_of_ants *ant)
 {
 	while (ant != NULL)
 	{
@@ -59,7 +58,7 @@ int		step_done(t_list_of_ants *ant)
 ** Checks if ant has reached its next_pos
 */
 
-int		is_finished(t_list_of_ants *ant,
+int			is_finished(t_list_of_ants *ant,
 					t_list_of_steps *cur, t_list_of_nodes *room)
 {
 	int		x_diff;

@@ -1,4 +1,9 @@
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+
 NAME = lem-gfx
+
+
 
 _SRC =	init_sdl.c \
 		links.c \
@@ -43,7 +48,13 @@ $(NAME) : $(OBJ)
 
 obj/%.o: src/%.c $(INCLUDE)/*.h
 	@mkdir -p obj
-	gcc -c $< -o $@ -I $(INCLUDE)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
+
+clean:
+	rm -rf obj/
+
+fclean: clean
+	rm $(NAME)
 
 #Run it like "make run MAP=<map_name>"
 run : 

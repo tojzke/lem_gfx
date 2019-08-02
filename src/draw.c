@@ -6,15 +6,15 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/15 17:01:21 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/20 18:50:47 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 19:40:49 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
-# define BUFF 255
-static void	draw_room(t_visual *vis, int x, int y, t_node *room)
+
+static void			draw_room(t_visual *vis, int x, int y, t_node *room)
 {
-	SDL_Rect	rect;
+	SDL_Rect		rect;
 
 	rect.x = x;
 	rect.y = y;
@@ -29,9 +29,9 @@ static void	draw_room(t_visual *vis, int x, int y, t_node *room)
 	SDL_RenderFillRect(vis->rend, &rect);
 }
 
-static void	draw_rooms(t_visual *vis)
+static void			draw_rooms(t_visual *vis)
 {
-	t_list_of_nodes *cur;
+	t_list_of_nodes	*cur;
 
 	cur = vis->lem_data->nodes;
 	while (cur != NULL)
@@ -45,7 +45,7 @@ static void	draw_rooms(t_visual *vis)
 	}
 }
 
-static void	draw_connections(t_visual *vis)
+static void			draw_connections(t_visual *vis)
 {
 	t_list_of_nodes	*cur;
 	t_list_of_nodes	*adj;
@@ -66,18 +66,12 @@ static void	draw_connections(t_visual *vis)
 	}
 }
 
-// static void	draw_text(t_visual *vis)
-// {
-// 	draw_ant_count(vis);	
-// }
-
-void	draw_all(t_visual *vis)
+void				draw_all(t_visual *vis)
 {
 	SDL_SetRenderDrawColor(vis->rend, 153, 153, 153, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(vis->rend);
 	draw_connections(vis);
 	draw_rooms(vis);
 	draw_ants(vis);
-	// draw_text(vis);
 	SDL_RenderPresent(vis->rend);
 }

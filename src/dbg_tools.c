@@ -6,13 +6,13 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 20:44:55 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/18 19:53:28 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 19:41:45 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
 
-void	print_steps(t_lem *lem)
+void				print_steps(t_lem *lem)
 {
 	t_list_of_steps *step;
 	int				i;
@@ -31,14 +31,15 @@ void	print_steps(t_lem *lem)
 	}
 }
 
-void	print_ants(t_lem *lem)
+void				print_ants(t_lem *lem)
 {
-	t_list_of_ants *ant;
+	t_list_of_ants	*ant;
 
 	ant = lem->ants;
 	while (ant != NULL)
 	{
-		ft_printf("Ant\n\tid:%d, cur_pos:%s, next_pos:%s\n",ant->id, ant->pos->name,
+		ft_printf("Ant\n\tid:%d, cur_pos:%s, next_pos:%s\n", ant->id,
+		ant->pos->name,
 		ant->next_pos->name);
 		ant = ant->next;
 	}

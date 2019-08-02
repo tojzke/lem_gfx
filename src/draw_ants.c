@@ -6,43 +6,17 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 19:06:44 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/20 17:15:36 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 19:50:54 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_graph.h"
 
 /*
-** Get and id in current step
-*/
-
-int		get_id(char *str)
-{
-	str = ft_strchr(str, 'L') + 1;
-	return (ft_atoi(str));
-}
-
-/*
-** Get position where ant is moving towards
-*/
-
-t_node	*get_next_pos(char *str, t_list_of_nodes *room)
-{
-	str = ft_strchr(str, '-') + 1;
-	while (room != NULL)
-	{
-		if (ft_strequ(str, room->node->name))
-			return (room->node);
-		room = room->next;
-	}
-	return (NULL);
-}
-
-/*
 ** Create node with ant info
 */
 
-t_list_of_ants	*create_ant(t_lem *lem, char *ant_step)
+t_list_of_ants		*create_ant(t_lem *lem, char *ant_step)
 {
 	t_list_of_ants	*ant;
 	t_list_of_ants	*tmp;
@@ -70,9 +44,9 @@ t_list_of_ants	*create_ant(t_lem *lem, char *ant_step)
 ** if can't find ant with this id - create new ant
 */
 
-t_list_of_ants	*find_ant(t_lem *lem, char *ant_step)
+t_list_of_ants		*find_ant(t_lem *lem, char *ant_step)
 {
-	t_list_of_ants *ant;
+	t_list_of_ants	*ant;
 
 	ant = lem->ants;
 	while (ant != NULL)
@@ -90,10 +64,10 @@ t_list_of_ants	*find_ant(t_lem *lem, char *ant_step)
 ** If ant reached end - remove him from the list
 */
 
-void					remove_ant(t_list_of_ants **ants, t_list_of_ants *ant)
+void				remove_ant(t_list_of_ants **ants, t_list_of_ants *ant)
 {
-	t_list_of_ants *tmp;
-	t_list_of_ants *start;
+	t_list_of_ants	*tmp;
+	t_list_of_ants	*start;
 
 	tmp = NULL;
 	if (*ants == ant)
@@ -122,7 +96,7 @@ void					remove_ant(t_list_of_ants **ants, t_list_of_ants *ant)
 ** Update positions of each ant and draw them
 */
 
-void	draw_ants(t_visual *vis)
+void				draw_ants(t_visual *vis)
 {
 	t_list_of_ants	*ant;
 	t_list_of_steps	*cr_step;

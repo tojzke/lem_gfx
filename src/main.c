@@ -6,7 +6,7 @@
 /*   By: dzboncak <dzboncak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 21:36:15 by dzboncak          #+#    #+#             */
-/*   Updated: 2019/07/20 18:36:38 by dzboncak         ###   ########.fr       */
+/*   Updated: 2019/08/02 20:40:28 by dzboncak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_lem	*init_lem(void)
 	return (lem);
 }
 
-static void	calc_draw_fact(t_visual *vis)
+static void		calc_draw_fact(t_visual *vis)
 {
 	int		room_numb;
 
@@ -41,12 +41,14 @@ static void		init_all(t_visual *vis)
 	vis->lem_data = init_lem();
 	vis->step_speed = 2000;
 	read_map(vis->lem_data);
+	if (vis->lem_data->nodes == NULL)
+		error("No map given!", vis->lem_data);
 	calc_draw_fact(vis);
 	init_sdl(vis);
 	TTF_Init();
 }
 
-int	main(void)
+int				main(void)
 {
 	t_visual	vis;
 	SDL_Event	event;
